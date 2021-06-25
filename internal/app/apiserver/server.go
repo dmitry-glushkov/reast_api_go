@@ -130,7 +130,7 @@ func (s *server) handleUsersCreate() http.HandlerFunc {
 		Password string `json:"password"`
 	}
 
-	return func(w http.ResponseWriter, r *http.Request) {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		req := &request{}
 		if err := json.NewDecoder(r.Body).Decode(req); err != nil {
 			s.error(w, r, http.StatusBadRequest, err)
@@ -148,7 +148,7 @@ func (s *server) handleUsersCreate() http.HandlerFunc {
 
 		u.Sanitize()
 		s.respond(w, r, http.StatusCreated, u)
-	}
+	})
 }
 
 func (s *server) handleSessionsCreate() http.HandlerFunc {
@@ -157,7 +157,7 @@ func (s *server) handleSessionsCreate() http.HandlerFunc {
 		Password string `json:"password"`
 	}
 
-	return func(w http.ResponseWriter, r *http.Request) {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		req := &request{}
 		if err := json.NewDecoder(r.Body).Decode(req); err != nil {
 			s.error(w, r, http.StatusBadRequest, err)
@@ -183,7 +183,7 @@ func (s *server) handleSessionsCreate() http.HandlerFunc {
 		}
 
 		s.respond(w, r, http.StatusOK, nil)
-	}
+	})
 }
 
 func (s *server) error(w http.ResponseWriter, r *http.Request, code int, err error) {
