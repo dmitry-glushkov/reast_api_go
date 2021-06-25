@@ -1,1 +1,2 @@
-"# reast_api_go" 
+## Сборка
+docker-compose up
